@@ -1,6 +1,6 @@
 from hash_maker import password
 import subprocess
-from database_manager import store_passwords, find_users, find_password
+from database_manager import DBHelper
 
 
 def menu():
@@ -20,10 +20,9 @@ def create():
     print('Please provide a simple password for this site: ')
     plaintext = input()
     passw = password(plaintext, app_name, 12)
-    subprocess.run('xclip', universal_newlines=True, input=passw)
     print('-'*30)
     print('')
-    print('Your password has now been created and copied to your clipboard')
+    print('Your password has now been generated and saved')
     print('')
     print('-' * 30)
     user_email = input('Please provide a user email for this app or site')
@@ -33,16 +32,19 @@ def create():
         username = ''
     url = input(
         'Please paste the url to the site that you are creating the password for')
-    store_passwords(passw, user_email, username, url, app_name)
+    db = DBHelper()
+    db.store_passwords(passw, user_email, username, url, app_name)
 
 
 def find():
     print('Please proivide the name of the site or app you want to find the password to')
     app_name = input()
-    find_password(app_name)
+    db = DBHelper()
+    db.find_password(app_name)
 
 
 def find_accounts():
     print('Please proivide the email that you want to find accounts for')
     user_email = input()
-    find_users(user_email)
+    db = DBHelper()
+    db.find_users(user_email)
