@@ -1,8 +1,9 @@
 from hashlib import sha256
 import random
-from secret import get_secret_key
+from secret import Secret
 
-SECRET_KEY = get_secret_key()
+Sr = Secret()
+SECRET_KEY = Sr.get_secret_key()
 
 
 def get_hexdigest(salt, plaintext):
